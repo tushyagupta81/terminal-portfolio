@@ -38,9 +38,9 @@ const isExternal = !!post.data.externalLink;
   </div>
   {post.data.tags && post.data.tags.length > 0 && (
     <span class="post-tags">
-      {post.data.tags.map((tag, index) => (
+      {post.data.tags.map((tag) => (
         <>
-          <a href={`${base}tags/${tag}/`}>{tag}</a>{index < post.data.tags.length - 1 && ', '}
+          <a href={`${base}tags/${tag}/`}>{tag}</a>
         </>
       ))}
     </span>
