@@ -17,10 +17,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.13.2"
+    "astro": "^5.15.4"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.2.2",
-    "@astrojs/rss": "^4.0.11"
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/rss": "^4.0.13"
   }
 }
