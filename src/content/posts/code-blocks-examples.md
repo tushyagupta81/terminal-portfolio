@@ -242,7 +242,7 @@ echo "Hello, World!"
 ### O
 
 **Objective-C:**
-```objectivec
+```objective-c
 #import <Foundation/Foundation.h>
 int main() {
     @autoreleasepool {
