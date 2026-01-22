@@ -4,9 +4,9 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tushyagupta81.github.io/terminal-portfolio',
+  site: 'https://tushyagupta81.github.io',
   // Only use base path in production (GitHub Pages)
-  base: process.env.NODE_ENV === 'production' ? '/astro-theme-terminal' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/terminal-portfolio' : '/',
   integrations: [sitemap()],
   markdown: {
     shikiConfig: {
