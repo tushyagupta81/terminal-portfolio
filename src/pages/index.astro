@@ -2,6 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/Card.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+import my_img from "../images/me.jpeg";
 
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.draft)
@@ -31,7 +34,7 @@ const experiences = (await getCollection('experience'))
       </div>
 
       <div class="intro-image">
-        <img src="/images/me.jpeg" alt="Portrait of Tushya Gupta">
+        <Image src={my_img} alt="Portrait of Tushya Gupta">
       </div>
     </div>
   </div>
