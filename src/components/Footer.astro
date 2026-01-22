@@ -1,0 +1,46 @@
+---
+interface ContactItem {
+  label: string;
+  value: string;
+  href?: string;
+}
+
+const contacts: ContactItem[] = [
+  { label: "WhatsApp", value: "+91-98776-27732", href: "https://wa.me/919877627732" },
+  { label: "Phone", value: "+91-98776-27732", href: "tel:+919877627732" },
+  { label: "Email", value: "tushyagupta81@gmail.com", href: "mailto:tushyagupta81@gmail.com" },
+];
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="contact">
+      {contacts.map((item, i) => (
+        <>
+          {item.href ? (
+            <span>
+              {item.label}: <a href={item.href} target="_blank" rel="noopener">{item.value}</a>
+            </span>
+          ) : (
+            <span>{item.label}: {item.value}</span>
+          )}
+
+          {i < contacts.length - 1 && <span class="separator">::</span>}
+        </>
+      ))}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .contact {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .separator {
+    opacity: 0.7;
+  }
+</style>

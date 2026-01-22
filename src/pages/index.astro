@@ -1,29 +1,101 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
+import Card from '../components/Card.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const projects = (await getCollection('projects'))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const experiences = (await getCollection('experience'))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Terminal">
+<BaseLayout title="Tushya Gupta">
   <div class="index-content framed">
-    <h1 id="hello-there">Hello there!</h1>
-    <p>Welcome to the Astro Terminal theme! This is a port of the popular Hugo Terminal theme by panr, bringing the same retro terminal aesthetic to Astro.</p>
-    <p>
-      You can customise the colour scheme using panr's <a href="https://panr.github.io/terminal-css/"><strong>Terminal.css</strong></a> 
-      generator - all generated schemes are fully compatible with this theme.
-    </p>
-    <p>
-      <a href="https://panr.github.io/terminal-css/">
-        <img src="https://panr.github.io/hugo-theme-terminal-demo/img/terminal-css.png" alt="Terminal.css Preview" />
-      </a>
-    </p>
+    <div class="intro-container">
+      <div class="intro-text">
+        <h1 id="hello-there">Hello there!</h1>
+        <p>
+          I'm <strong>Tushya Gupta</strong>, a software engineer focused on building 
+          efficient systems, backend tooling, and high-performance workflows.
+        </p>
+        <p>
+          This site is my portfolio + blog where I document projects, experiments.
+        </p>
+      </div>
+
+      <div class="intro-image">
+        <img src="/images/me.jpeg" alt="Portrait of Tushya Gupta">
+      </div>
+    </div>
   </div>
-  
-  <div class="posts">
-    {posts.map((post) => <PostCard post={post} />)}
+
+  <div class="index-content framed">
+    <h1>Experience</h1>
+    <div class="posts">
+      {experiences.map((experience) => <Card card={experience} site_path="experience" />)}
+    </div>
+  </div>
+  <div class="index-content framed">
+    <h1>Projects</h1>
+    <div class="posts">
+      {projects.map((project) => <Card card={project} site_path="projects" />)}
+    </div>
+  </div>
+  <div class="index-content framed">
+    <h1>Posts</h1>
+    <div class="posts">
+      {posts.map((post) => <Card card={post} site_path="posts" />)}
+    </div>
   </div>
 </BaseLayout>
+
+<style>
+  .intro-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  /* Text always flexes properly */
+  .intro-text {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  /* Desktop image */
+  .intro-image img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--color-secondary);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 685px) {
+    .intro-container {
+      flex-direction: column;        /* stack vertically */
+      text-align: center;            /* center text */
+    }
+
+    .intro-image {
+      display: flex;
+      justify-content: center;       /* center image */
+      width: 100%;
+    }
+
+    .intro-image img {
+      width: 70%;                    /* scale up for mobile */
+      max-width: 260px;
+      height: auto;                  /* keep aspect ratio */
+    }
+  }
+</style>

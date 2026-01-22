@@ -3,27 +3,27 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/Card.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('posts'))
-  .filter(post => !post.data.draft)
+const experiences = (await getCollection('experience'))
+  .filter(experience => !experience.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Posts">
-  <div class="posts">
-    <h1 class="posts-title">Posts</h1>
-    {posts.length === 0 ? (
-      <p>No posts yet. Check back soon!</p>
+<BaseLayout title="Experience">
+  <div class="experiences">
+    <h1 class="experiences-title">Experience</h1>
+    {experiences.length === 0 ? (
+      <p>No experience yet. Check back soon!</p>
     ) : (
-    posts.map((post) => <>
-      <Card card={post} site_path='posts' />
-      <hr class="post-divider">
+    experiences.map((experience) => <>
+      <Card card={experience} site_path='experience' />
+      <hr class="experience-divider">
     </>)
     )}
   </div>
 </BaseLayout>
 
 <style>
-  .posts-title {
+  .experiences-title {
     position: relative;
     color: var(--accent);
     margin-top: 0 !important;
@@ -32,12 +32,16 @@ const posts = (await getCollection('posts'))
     border-bottom: 3px dotted var(--accent);
   }
   
-  .posts-title::after {
+  .experiences-title::after {
     content: "";
     position: absolute;
     bottom: 2px;
     display: block;
     width: 100%;
     border-bottom: 3px dotted var(--accent);
+  }
+
+  .experience-divider {
+    border: 1px solid white;
   }
 </style>
