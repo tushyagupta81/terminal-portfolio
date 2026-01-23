@@ -1,37 +1,65 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostCard from '../../components/PostCard.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Card from "../../components/Card.astro";
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection('posts');
-  const uniqueTags = [...new Set(allPosts.map(post => post.data.tags).flat())];
-  
-  return uniqueTags.map(tag => {
-    const filteredPosts = allPosts
-      .filter(post => post.data.tags?.includes(tag) && !post.data.draft)
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const collections: Array<"posts" | "projects" | "experience"> = [
+    "posts",
+    "projects",
+    "experience",
+  ];
+  const allEntries = await Promise.all(
+    collections.map(async (col) => await getCollection(col)),
+  ).then((results) => results.flat());
+
+  const uniqueTags = [
+    ...new Set(
+      allEntries
+        .map((e) => e.data.tags)
+        .flat()
+        .filter(Boolean),
+    ),
+  ];
+
+  return uniqueTags.map((tag) => {
+    const filtered = allEntries
+      .filter((e) => e.data.tags?.includes(tag) && !e.data.draft)
+      .sort(
+        (a, b) =>
+          (b.data.pubDate?.valueOf() || 0) - (a.data.pubDate?.valueOf() || 0),
+      );
+
     return {
       params: { tag },
-      props: { posts: filteredPosts }
+      props: { cards: filtered },
     };
   });
 }
 
+// Props for the current tag page
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { cards } = Astro.props;
 ---
 
-<BaseLayout title={`Tag: ${tag}`} description={`All posts tagged with "${tag}"`}>
+<BaseLayout
+  title={`Tag: ${tag}`}
+  description={`All content tagged with "${tag}"`}
+>
   <div class="posts">
     <h1 class="posts-title">
-      <span style="color: var(--foreground)">Posts for: <span style="color: var(--accent)">#{tag}</span></span>
+      <span style="color: var(--foreground)"
+        >Content for: <span style="color: var(--accent)">#{tag}</span></span
+      >
     </h1>
-    {posts.length === 0 ? (
-      <p>No posts found with this tag.</p>
-    ) : (
-      posts.map((post) => <PostCard post={post} />)
-    )}
+
+    {
+      cards.length === 0 ? (
+        <p>No content found with this tag.</p>
+      ) : (
+        cards.map((card) => <Card card={card} site_path={card.collection} />)
+      )
+    }
   </div>
 </BaseLayout>
 
@@ -43,7 +71,7 @@ const { posts } = Astro.props;
     padding-bottom: 0 !important;
     border-bottom: none !important;
   }
-  
+
   .posts-title::after {
     display: none !important;
   }

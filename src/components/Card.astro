@@ -1,63 +1,118 @@
 ---
-import FormattedDate from './FormattedDate.astro';
+import FormattedDate from "./FormattedDate.astro";
+import diffHuman from "../js/duration.js";
+import { Image } from "astro:assets";
 
 export interface Props {
   card: {
     slug: string;
     data: {
       title: string;
+      company?: string;
       description?: string;
       pubDate: Date;
+      startDate?: Date;
+      endDate?: Date;
       author?: string;
       tags?: string[];
       image?: string;
+      imageHeight?: number;
+      imageWidth?: number;
       externalLink?: string;
     };
   };
-  site_path: string
+  site_path: string;
 }
 
 const { card, site_path } = Astro.props;
-const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + "/";
 const cardUrl = card.data.externalLink || `${base}${site_path}/${card.slug}/`;
 const isExternal = !!card.data.externalLink;
 ---
 
 <article class="post on-list">
   <h2 class="post-title">
-    <a href={cardUrl} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener" : undefined}>
+    <a
+      href={cardUrl}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener" : undefined}
+    >
       {card.data.title}
     </a>
   </h2>
   <div class="post-meta">
+    <time> </time>
     <time class="post-date">
-      <FormattedDate date={card.data.pubDate} />
+      {
+        card.data.startDate || card.data.endDate ? (
+          <>
+            {card.data.startDate && (
+              <FormattedDate date={card.data.startDate} />
+            )}
+            {card.data.endDate &&
+              (() => {
+                if (card.data.endDate > new Date()) {
+                  return <> - Present</>;
+                }
+                return (
+                  <>
+                    {" "}
+                    – <FormattedDate date={card.data.endDate} /> •
+                    {diffHuman(card.data.startDate, card.data.endDate)}
+                  </>
+                );
+              })()}
+          </>
+        ) : (
+          <FormattedDate date={card.data.pubDate} />
+        )
+      }
     </time>
-    {card.data.author && (
-      <span class="post-author">{card.data.author}</span>
-    )}
+    {card.data.author && <span class="post-author">{card.data.author}</span>}
   </div>
-  {card.data.tags && card.data.tags.length > 0 && (
-    <span class="post-tags">
-      {card.data.tags.map((tag) => (
-        <>
-          <a href={`${base}tags/${tag}/`}>{tag}</a>
-        </>
-      ))}
-    </span>
-  )}
-  {card.data.image && (
-    <figure class="post-cover">
-      <img src={card.data.image} alt={card.data.title} />
-    </figure>
-  )}
-  {card.data.description && (
-    <div class="post-content">
-      <p>{card.data.description}</p>
-    </div>
-  )}
-  <div>
-    <a href={cardUrl} class="read-more button inline" target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener" : undefined}>
+  {
+    card.data.tags && card.data.tags.length > 0 && (
+      <span class="post-tags">
+        {card.data.tags.map((tag) => (
+          <>
+            <a href={`${base}tags/${tag}/`}>{tag}</a>
+          </>
+        ))}
+      </span>
+    )
+  }
+  {
+    card.data.image && (
+      <figure class="post-cover">
+        <Image
+          src={
+            card.data.image.startsWith("/")
+              ? `${base}${card.data.image.slice(1)}`
+              : card.data.image
+          }
+          alt={card.data.title}
+          width={card.data.imageWidth ?? 400}
+          height={card.data.imageHeight ?? 300}
+        />
+      </figure>
+    )
+  }
+  {
+    card.data.description && (
+      <div class="post-content">
+        <p>{card.data.description}</p>
+      </div>
+    )
+  }
+  <div class="read-more-container">
+    <a
+      href={cardUrl}
+      class="read-more button inline"
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener" : undefined}
+    >
       [Read more]
     </a>
   </div>

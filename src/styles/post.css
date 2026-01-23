@@ -68,13 +68,16 @@
 }
 
 .post-cover {
-  margin: 20px 0;
+  margin: 5px auto;
+  display: flex;
 }
 
 .post-cover img {
   border: 10px solid var(--accent);
   background: transparent;
-  padding: 20px;
+  padding: 10px;
+  max-width: 100%;     /* responsive */
+  height: auto;
 }
 
 .post ul {
