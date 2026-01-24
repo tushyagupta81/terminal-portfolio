@@ -8,6 +8,7 @@ endDate: 2025-07-31
 image: /images/erb-desc-image.png
 imageHeight: 250
 imageWidth: 1000
+tags: ["python", "web scrapping", "scripting", "automation"]
 ---
 ## Overview
 
