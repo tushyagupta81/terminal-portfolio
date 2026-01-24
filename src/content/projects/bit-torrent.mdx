@@ -1,0 +1,66 @@
+---
+title: "BitTorrent Client"
+description: "High-performance BitTorrent client built in Rust with async piece distribution."
+pubDate: 2026-01-10
+image: "/images/bittorrent-showcase1.png"
+imageHeight: 500
+imageWidth: 1000
+tags: ["rust", "tokio", "bittorrent", "mpsc", "async"]
+---
+
+import img1 from "../../images/bittorrent-showcase1.png";
+import img2 from "../../images/bittorrent-showcase2.png";
+import { Image } from "astro:assets";
+
+The **BitTorrent Client** is a high-performance, fully asynchronous torrent client built in **Rust**, designed for efficient downloading and distribution of torrent files. It leverages Rust's safety and concurrency features to achieve fast and reliable peer-to-peer transfers.
+
+### Motivation
+
+Traditional torrent clients can suffer from slow performance and inefficient resource usage when handling multiple torrents simultaneously. This project was built to explore **Rust's async capabilities** and create a client that scales efficiently with system resources while maintaining clean and modular code.
+
+### Architecture
+
+- **Async Runtime:** Uses **Tokio** for handling multiple connections concurrently without blocking.
+- **Piece Distribution:** Implements a **multi-producer, single-consumer (MPSC) channel model** to orchestrate downloading pieces from multiple peers in parallel.
+- **Peer Management:** Efficiently tracks and communicates with multiple peers, following the BitTorrent protocol specification.
+- **Planned Feature:** Magnet link parsing to fetch torrent metadata dynamically (not yet implemented).
+
+### Features
+
+- High-speed downloading using asynchronous I/O.
+- Scalable piece management with MPSC channels.
+- Modular design for extending features (e.g., DHT support, seeding).
+- Error handling and retry mechanisms for resilient downloads.
+
+### Tech Stack
+
+- **Language:** Rust
+- **Async Runtime:** Tokio
+- **Concurrency Model:** MPSC channels
+- **Other Tools:** Serde for metadata parsing, custom structs for peer management
+
+<div style="display: flex; justify-content: center; flex-wrap: wrap;">
+  <Image
+    src={img1}
+    alt="Screenshot 1"
+    style={{ maxHeight: "400px", height: "auto", width: "auto" }}
+  />
+  <Image
+    src={img2}
+    alt="Screenshot 2"
+    style={{ maxHeight: "400px", height: "auto", width: "auto" }}
+  />
+</div>
+
+### Future Enhancements
+
+- Magnet link parsing and metadata fetching.
+- Full **DHT (Distributed Hash Table)** integration.
+- Graphical user interface for visualizing downloads.
+- Performance benchmarking and optimization for multi-terabyte torrents.
+
+<div style="text-align: center;">
+  <a href="https://github.com/tushyagupta81/bit_torrent.git" target="_blank" rel="noopener noreferrer">
+    GitHub Repository
+  </a>
+</div>
