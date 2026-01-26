@@ -5,7 +5,7 @@ description: Developed a high-throughput pipeline to extract features from conti
 pubDate: 2026-01-22
 startDate: 2024-10-16
 endDate: 2026-10-28
-image: /images/dgre-desc-image.jpeg
+image: /images/dgre-desc-image.png
 imageHeight: 300
 imageWidth: 900
 tags: ['ml', 'python', 'data analysis']
